@@ -1,7 +1,17 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-dialogplus-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1413)    [![API](https://img.shields.io/badge/API-10%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=10) [![Join the chat at https://gitter.im/orhanobut/dialogplus](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/orhanobut/dialogplus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![](https://img.shields.io/badge/AndroidWeekly-%23144-blue.svg)](http://androidweekly.net/issues/issue-144)
 
+<img align='right' src='https://github.com/orhanobut/dialogplus/blob/master/art/DP1.png' height='128'/>
+
 DialogPlus
 ==========
+Simple and advanced dialog solution.
+
+- Uses normal view as dialog
+- Provides expandable option
+- Multiple positioning
+- Built-in options for easy implementation
+
+
 
 <img src='https://github.com/nr4bt/dialogplus/blob/master/art/dialogplus.gif' height='400'/> <img src='https://github.com/nr4bt/dialogplus/blob/master/art/dialogplusanim.gif' height='400'/>
 
@@ -19,7 +29,7 @@ DialogPlus
 
 ### Gradle
 ```groovy
-compile 'com.orhanobut:dialogplus:1.10@aar'
+compile 'com.orhanobut:dialogplus:1.11@aar'
 ```
 
 ### Usage
@@ -28,14 +38,14 @@ Use the builder to create the dialog.
 Basic usage
 ```java
 DialogPlus dialog = DialogPlus.newDialog(this)
-    .setAdapter(adapter)
-    .setOnItemClickListener(new OnItemClickListener() {
-        @Override
-        public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-        }
-    })
-    .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
-    .create();
+  .setAdapter(adapter)
+  .setOnItemClickListener(new OnItemClickListener() {
+    @Override
+    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+    }
+  })
+  .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
+  .create();
 dialog.show();
 ```
 
@@ -86,10 +96,9 @@ View view = dialogPlus.getHolderView();
 - Set an item click listener when list or grid holder is chosen. In that way you can have callbacks when one of your items is clicked
 ```java
 .setOnItemClickListener(new OnItemClickListener() {
-    @Override
-    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
-
-    }
+  @Override
+  public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+  }
 })
 ```
 - Set a global click listener to you dialog in order to handle all the possible click events. You can then identify the view by using its id and handle the correct behaviour. Only views which has id will trigger this event.
@@ -103,7 +112,7 @@ View view = dialogPlus.getHolderView();
 ```
 - Add margins to your dialog. They are set to 0 except when gravity is center. In that case basic margins are applied
 ```java
-.setMargins(left, top, right, bottom)
+.setMargin(left, top, right, bottom)
 ```
 - Set padding to the holder
 ```java
@@ -174,15 +183,19 @@ View view = dialogPlus.getHeaderView();
 })
 ```
 
-#### You might also like
-- [Hawk](https://github.com/orhanobut/hawk) Secure simple key-value storage
-- [Wasp](https://github.com/orhanobut/wasp) All-in-one network solution
-- [Bee](https://github.com/orhanobut/bee) QA/Debug tool
-- [SimpleListView](https://github.com/orhanobut/simplelistview) Simple basic listview implementation with linearlayout
+- Change content container background, as default white
+```java
+.setContentBackgroundResource(resource)
+```
+
+- Change overlay container background, as default it's semi-transparent black
+```java
+.setOverlayBackgroundResource(resource)
+```
 
 #### License
 <pre>
-Copyright 2014 Orhan Obut
+Copyright 2016 Orhan Obut
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

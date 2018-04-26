@@ -1,8 +1,11 @@
 package com.orhanobut.dialogplus;
 
+import android.support.annotation.NonNull;
+
 /**
- * @author yonghoon.do
+ * DialogPlus will use this listener to propagate cancel events when back button is pressed.
  */
 public interface OnCancelListener {
-  public void onCancel(DialogPlus dialog);
+
+  void onCancel(@NonNull DialogPlus dialog);
 }

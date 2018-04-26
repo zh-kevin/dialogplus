@@ -1,5 +1,13 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
+
+version = VERSION_NAME
+group = GROUP
+
+def isReleaseBuild() {
+  return version.contains("SNAPSHOT") == false
+}
+
 def sonatypeRepositoryUrl
 if (isReleaseBuild()) {
   println 'RELEASE BUILD'
@@ -10,24 +18,19 @@ if (isReleaseBuild()) {
   sonatypeRepositoryUrl = hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
       : "https://oss.sonatype.org/content/repositories/snapshots/"
 }
-def USERNAME = "";
-def PASSWORD = "";
+
 afterEvaluate { project ->
   uploadArchives {
-    def Properties versionProps = new Properties()
-    try {
-      versionProps.load(new FileInputStream('credential.properties'))
-      USERNAME = versionProps['USERNAME'];
-      PASSWORD = versionProps['PASSWORD'];
-    } catch (FileNotFoundException e) {
-      println 'Failed to find file credential.properties. Maven deploy disabled'
-    }
     repositories {
       mavenDeployer {
         beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
         pom.artifactId = POM_ARTIFACT_ID
         repository(url: sonatypeRepositoryUrl) {
-          authentication(userName: USERNAME, password: PASSWORD)
+          try {
+            authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+          } catch (Exception ignored) {
+            println "mavenUser or mavenPassword is missing"
+          }
         }
         pom.project {
           name POM_NAME
@@ -75,4 +78,22 @@ afterEvaluate { project ->
     archives androidSourcesJar
     archives androidJavadocsJar
   }
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+  from android.sourceSets.main.java.srcDirs
+  classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+  failOnError false
+  source = android.sourceSets.main.java.sourceFiles
+  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
 }

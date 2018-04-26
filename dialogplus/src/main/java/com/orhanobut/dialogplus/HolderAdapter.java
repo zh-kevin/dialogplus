@@ -1,13 +1,11 @@
 package com.orhanobut.dialogplus;
 
+import android.support.annotation.NonNull;
 import android.widget.BaseAdapter;
 
-/**
- * @author Orhan Obut
- */
 public interface HolderAdapter extends Holder {
 
-  void setAdapter(BaseAdapter adapter);
+  void setAdapter(@NonNull BaseAdapter adapter);
 
   void setOnItemClickListener(OnHolderListener listener);
 }
